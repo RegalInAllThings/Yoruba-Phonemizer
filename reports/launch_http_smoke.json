@@ -1,0 +1,15 @@
+{
+  "transport": "real localhost HTTP via uvicorn",
+  "home_status": 200,
+  "health": {
+    "status": "ok",
+    "engine": "neural",
+    "checkpoint_sha256": "d4d5d8cc49500946abc1b8f84df7a36bc4df8f5b09849d40db487211b32df217"
+  },
+  "conversion": {
+    "phonemes": "[j o_M r u_L b a_H]!",
+    "engine": "neural",
+    "experimental": true
+  },
+  "public_deployment_tested": false
+}

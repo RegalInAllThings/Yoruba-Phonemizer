@@ -1,0 +1,71 @@
+{
+  "checkpoint_sha256": "d4d5d8cc49500946abc1b8f84df7a36bc4df8f5b09849d40db487211b32df217",
+  "checkpoint_bytes": 1645387,
+  "torch": "2.5.1+cpu",
+  "hidden": 128,
+  "character_vocab_size": 42,
+  "phone_vocab_size": 43,
+  "results": {
+    "Yorùbá": [
+      "j",
+      "o_M",
+      "r",
+      "u_L",
+      "b",
+      "a_H"
+    ],
+    "ẹran": [
+      "ɛ_M",
+      "r",
+      "a_M",
+      "n"
+    ],
+    "ọrùn": [
+      "ɔ_M",
+      "r",
+      "u_L",
+      "n"
+    ],
+    "ọ̀run": [
+      "ɔ_L",
+      "r",
+      "u_M",
+      "n"
+    ],
+    "iyán": [
+      "i_M",
+      "j",
+      "a_H",
+      "n",
+      "a_H"
+    ],
+    "ǹkan": [
+      "d",
+      "k",
+      "p",
+      "n",
+      "n"
+    ],
+    "gbogbo": [
+      "ɡ",
+      "b",
+      "o_M",
+      "ɡ",
+      "b",
+      "o_M"
+    ],
+    "àlàáfíà": [
+      "a_L",
+      "l",
+      "a_L",
+      "f",
+      "i_H",
+      "a_L"
+    ]
+  },
+  "eight_words_seconds": 0.0108,
+  "peak_rss_mib": 261.7,
+  "automated_tests": "14 passed",
+  "linguistic_accuracy_measured": false,
+  "model_retrained": false
+}

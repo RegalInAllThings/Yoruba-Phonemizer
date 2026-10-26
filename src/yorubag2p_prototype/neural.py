@@ -27,10 +27,7 @@ class Model(nn.Module):
 
 class NeuralConverter:
     def __init__(self, checkpoint_path):
-        try:
-            checkpoint=torch.load(str(checkpoint_path),map_location='cpu',weights_only=True)
-        except TypeError:
-            checkpoint=torch.load(str(checkpoint_path),map_location='cpu')
+        checkpoint=torch.load(str(checkpoint_path),map_location='cpu',weights_only=True)
         self.chars=checkpoint['char_vocab']
         self.phones=checkpoint['phone_vocab']
         self.ci={x:i for i,x in enumerate(self.chars)}
@@ -51,6 +48,9 @@ class NeuralConverter:
             logits,state=self.model.step(tok,state,memory,mask)
             tok=logits.argmax(-1)
             idx=int(tok.item())
-            if idx==self.pi['<eos>']:break
+            if idx==self.pi['<eos>']:
+                return result
+            if idx==self.pi['<unk>']:
+                raise ValueError('Model predicted an unknown phone')
             if idx not in (self.pi['<pad>'],self.pi['<bos>']):result.append(self.phones[idx])
-        return result
+        raise ValueError('Model did not terminate within max_steps')
