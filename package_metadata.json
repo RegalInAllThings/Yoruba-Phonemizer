@@ -1,0 +1,11 @@
+{
+  "name": "YorubaG2P prototype",
+  "engine": "rule-based yoruba-g2p==0.2.4",
+  "trained_neural_model_included": false,
+  "gold_verified": false,
+  "nasal_overrides": [
+    "ń",
+    "ǹ"
+  ],
+  "tests": "smoke tests passed; not linguistic validation"
+}
