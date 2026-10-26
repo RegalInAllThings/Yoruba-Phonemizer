@@ -1,0 +1,55 @@
+{
+  "stage": "20B",
+  "torch_version": "2.11.0+cpu",
+  "checkpoint_status": "PASS",
+  "checkpoint_summary": {
+    "top_level_keys": [
+      "model",
+      "char_vocab",
+      "phone_vocab",
+      "hidden",
+      "seed",
+      "source"
+    ],
+    "value_types": {
+      "model": "OrderedDict",
+      "char_vocab": "list",
+      "phone_vocab": "list",
+      "hidden": "int",
+      "seed": "int",
+      "source": "str"
+    }
+  },
+  "public_interfaces": {
+    "converter": [
+      {
+        "name": "YorubaConverter",
+        "type": "class",
+        "signature": "()"
+      }
+    ],
+    "neural": [
+      {
+        "name": "Model",
+        "type": "class",
+        "signature": "(nc, np_, hidden=128)"
+      },
+      {
+        "name": "NeuralConverter",
+        "type": "class",
+        "signature": "(checkpoint_path)"
+      }
+    ],
+    "hybrid": [
+      {
+        "name": "HybridConverter",
+        "type": "class",
+        "signature": "(checkpoint_path=None)"
+      }
+    ]
+  },
+  "demo_script_found": true,
+  "prediction_test": "NOT_RUN",
+  "model_retrained": false,
+  "gold_accuracy_measured": false
+}
