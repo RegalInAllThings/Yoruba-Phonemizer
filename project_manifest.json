@@ -1,0 +1,34 @@
+{
+  "stage": "20A",
+  "created_utc": "2026-10-22T07:45:38.894097+00:00",
+  "model_copy_verified": true,
+  "package_import": "PASS",
+  "syntax_checks": [
+    {
+      "file": "cli.py",
+      "status": "PASS"
+    },
+    {
+      "file": "demo_stage7.py",
+      "status": "PASS"
+    },
+    {
+      "file": "src/yorubag2p_prototype/__init__.py",
+      "status": "PASS"
+    },
+    {
+      "file": "src/yorubag2p_prototype/converter.py",
+      "status": "PASS"
+    },
+    {
+      "file": "src/yorubag2p_prototype/hybrid.py",
+      "status": "PASS"
+    },
+    {
+      "file": "src/yorubag2p_prototype/neural.py",
+      "status": "PASS"
+    }
+  ],
+  "gold_references_added": 0,
+  "model_retrained": false
+}
