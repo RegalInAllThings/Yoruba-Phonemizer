@@ -17,6 +17,7 @@ from pydantic import BaseModel, Field
 ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT / 'src'))
 from yorubag2p_prototype.neural import NeuralConverter
+from yorubag2p_prototype.orthography import nasalize_from_spelling, POSTPROCESSING
 
 CHECKPOINT = ROOT / 'models/g2p_silver_model.pt'
 EXPECTED_SHA256 = 'd4d5d8cc49500946abc1b8f84df7a36bc4df8f5b09849d40db487211b32df217'
@@ -50,7 +51,7 @@ def index():
 def health():
     if getattr(app.state, 'converter', None) is None:
         raise HTTPException(503, 'Trained model unavailable')
-    return {'status': 'ok', 'engine': 'neural', 'checkpoint_sha256': EXPECTED_SHA256}
+    return {'status': 'ok', 'engine': 'neural', 'checkpoint_sha256': EXPECTED_SHA256, 'postprocessing': POSTPROCESSING}
 
 
 def tokenize(text):
@@ -87,7 +88,7 @@ def phonemize(payload: Request):
             results = []
             for word, token in parts:
                 if word:
-                    phones = converter.word(token)
+                    phones = nasalize_from_spelling(token, converter.word(token))
                     if not phones:
                         raise ValueError('Empty model prediction')
                     results.append('[' + ' '.join(phones) + ']')
@@ -96,4 +97,4 @@ def phonemize(payload: Request):
     except Exception:
         logging.exception('Neural conversion failed')
         raise HTTPException(503, 'The trained model could not complete this conversion.')
-    return {'phonemes': ''.join(results), 'engine': 'neural', 'experimental': True}
+    return {'phonemes': ''.join(results), 'engine': 'neural', 'experimental': True, 'postprocessing': POSTPROCESSING}

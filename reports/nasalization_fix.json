@@ -1,0 +1,55 @@
+{
+  "public_baseline": {
+    "url": "https://yoruba-phonemizer.onrender.com",
+    "input": "ẹran",
+    "output": "[ɛ_M r a_M n]",
+    "checkpoint_sha256": "d4d5d8cc49500946abc1b8f84df7a36bc4df8f5b09849d40db487211b32df217"
+  },
+  "local_corrected_http": {
+    "ẹran": {
+      "phonemes": "[ɛ_M r ã_M]",
+      "engine": "neural",
+      "experimental": true,
+      "postprocessing": "word-final-nasal-v1"
+    },
+    "ọrùn": {
+      "phonemes": "[ɔ_M r ũ_L]",
+      "engine": "neural",
+      "experimental": true,
+      "postprocessing": "word-final-nasal-v1"
+    },
+    "ọ̀run": {
+      "phonemes": "[ɔ_L r ũ_M]",
+      "engine": "neural",
+      "experimental": true,
+      "postprocessing": "word-final-nasal-v1"
+    },
+    "inú": {
+      "phonemes": "[i_M n u_H]",
+      "engine": "neural",
+      "experimental": true,
+      "postprocessing": "word-final-nasal-v1"
+    },
+    "aná": {
+      "phonemes": "[a_M n a_H]",
+      "engine": "neural",
+      "experimental": true,
+      "postprocessing": "word-final-nasal-v1"
+    },
+    "ń ǹ": {
+      "phonemes": "[n_H] [n_L]",
+      "engine": "neural",
+      "experimental": true,
+      "postprocessing": "word-final-nasal-v1"
+    },
+    "a náà": {
+      "phonemes": "[a_M] [n a_H a_L]",
+      "engine": "neural",
+      "experimental": true,
+      "postprocessing": "word-final-nasal-v1"
+    }
+  },
+  "tests": "48 passed",
+  "checkpoint_modified": false,
+  "live_fix_verified": false
+}

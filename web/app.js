@@ -20,7 +20,7 @@ async function health() {
   try {
     const response = await fetch('/healthz', {signal: AbortSignal.timeout(90000)});
     if (!response.ok) throw Error();
-    badge.textContent = 'Neural model ready';
+    badge.textContent = 'Neural + nasal correction ready';
   } catch { badge.textContent = 'Model unavailable · retry shortly'; }
 }
 health();
@@ -37,7 +37,7 @@ form.addEventListener('submit', async event => {
     const data = await response.json();
     if (!response.ok) throw Error(typeof data.detail === 'string' ? data.detail : 'Enter 1–500 characters of Yorùbá text.');
     result = data.phonemes; output.textContent = result; copy.disabled = false;
-    document.querySelector('#model-status').textContent = 'Neural model ready';
+    document.querySelector('#model-status').textContent = 'Neural + nasal correction ready';
   } catch (error) {
     output.textContent = 'Conversion unavailable.';
     message.textContent = error.name === 'TimeoutError' ? 'The service is taking time to wake up. Please try again shortly.' : error.message;

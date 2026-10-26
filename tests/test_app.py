@@ -24,7 +24,7 @@ def test_normalization_and_punctuation(client):
     a = client.post('/api/phonemize', json={'text': word}).json()
     b = client.post('/api/phonemize', json={'text': unicodedata.normalize('NFD', word)}).json()
     assert a == b
-    assert a['phonemes'] == '[ɔ_L r u_M n], [ɛ_M r a_M n]!'
+    assert a['phonemes'] == '[ɔ_L r ũ_M], [ɛ_M r ã_M]!'
 
 
 @pytest.mark.parametrize('text', ['', '   ', '123!', 'hello🙂世界', 'a'*501, 'a'*41, 'a '*61])
