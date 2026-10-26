@@ -1,0 +1,41 @@
+{
+  "stage": "20C",
+  "words": [
+    "ẹran",
+    "ọrùn",
+    "ọ̀run",
+    "iyán",
+    "ǹkan"
+  ],
+  "results": {
+    "rule": {
+      "init_status": "PASS",
+      "methods": [
+        "batch",
+        "text",
+        "tokenize",
+        "word"
+      ],
+      "prediction_status": "NO_KNOWN_METHOD"
+    },
+    "neural": {
+      "init_status": "PASS",
+      "methods": [
+        "model",
+        "word"
+      ],
+      "prediction_status": "NO_KNOWN_METHOD"
+    },
+    "hybrid": {
+      "init_status": "PASS",
+      "methods": [
+        "batch",
+        "text",
+        "word"
+      ],
+      "prediction_status": "NO_KNOWN_METHOD"
+    }
+  },
+  "model_retrained": false,
+  "gold_accuracy_measured": false
+}
