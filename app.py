@@ -1,4 +1,4 @@
-"""Hybrid CPU inference with a rule-based fallback for obvious neural errors."""
+"""Single-process CPU neural inference. No rule-based fallback."""
 import hashlib
 import logging
 import os
@@ -17,8 +17,7 @@ from pydantic import BaseModel, Field
 ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT / 'src'))
 from yorubag2p_prototype.neural import NeuralConverter
-from yorubag2p_prototype.converter import YorubaConverter
-from yorubag2p_prototype.orthography import nasalize_from_spelling, POSTPROCESSING, VOWELS, NASALS
+from yorubag2p_prototype.orthography import nasalize_from_spelling, POSTPROCESSING
 
 CHECKPOINT = ROOT / 'models/g2p_silver_model.pt'
 EXPECTED_SHA256 = 'd4d5d8cc49500946abc1b8f84df7a36bc4df8f5b09849d40db487211b32df217'
@@ -27,7 +26,6 @@ lock = Lock()
 @asynccontextmanager
 async def lifespan(app):
     app.state.converter = None
-    app.state.rule_converter = YorubaConverter()
     try:
         torch.set_num_threads(1)
         path = Path(os.environ.get('MODEL_PATH', CHECKPOINT))
@@ -53,7 +51,7 @@ def index():
 def health():
     if getattr(app.state, 'converter', None) is None:
         raise HTTPException(503, 'Trained model unavailable')
-    return {'status': 'ok', 'engine': 'hybrid', 'checkpoint_sha256': EXPECTED_SHA256, 'postprocessing': POSTPROCESSING}
+    return {'status': 'ok', 'engine': 'neural', 'checkpoint_sha256': EXPECTED_SHA256, 'postprocessing': POSTPROCESSING}
 
 
 def tokenize(text):
@@ -69,24 +67,6 @@ def tokenize(text):
     if current:
         parts.append((True, current))
     return parts
-
-
-def written_vowel_count(word):
-    """Count written vowel graphemes without counting tone/underdot marks."""
-    decomposed = unicodedata.normalize('NFD', word.lower())
-    return sum(1 for ch in decomposed if ch in 'aeiou')
-
-
-def predicted_vowel_count(phones):
-    """Count vowel phones; syllabic nasal phones such as n_H are not vowels."""
-    vowel_qualities = set(VOWELS.values()) | set(NASALS.values())
-    count = 0
-    for phone in phones:
-        quality, sep, tone = phone.rpartition('_')
-        if sep and tone in {'L', 'M', 'H'} and quality in vowel_qualities:
-            count += 1
-    return count
-
 
 @app.post('/api/phonemize')
 def phonemize(payload: Request):
@@ -108,18 +88,13 @@ def phonemize(payload: Request):
             results = []
             for is_word, token in parts:
                 if is_word:
-                    phones = converter.word(token)
-                    # The current neural model has known deletion/insertion errors.
-                    # Fall back only when its vowel count contradicts the spelling.
-                    if predicted_vowel_count(phones) != written_vowel_count(token):
-                        phones = app.state.rule_converter.word(token)
-                    phones = nasalize_from_spelling(token, phones)
+                    phones = nasalize_from_spelling(token, converter.word(token))
                     if not phones:
                         raise ValueError('Empty model prediction')
                     results.append('[' + ' '.join(phones) + ']')
                 else:
                     results.append(token)
     except Exception:
-        logging.exception('Phonemizer conversion failed')
-        raise HTTPException(503, 'The phonemizer could not complete this conversion.')
-    return {'phonemes': ''.join(results), 'engine': 'hybrid', 'experimental': True, 'postprocessing': POSTPROCESSING}
+        logging.exception('Neural conversion failed')
+        raise HTTPException(503, 'The trained model could not complete this conversion.')
+    return {'phonemes': ''.join(results), 'engine': 'neural', 'experimental': True, 'postprocessing': POSTPROCESSING}
